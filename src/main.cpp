@@ -54,15 +54,15 @@ TInstanceHook(void, "?actuallyHurt@Player@@UEAAXHAEBVActorDamageSource@@_N@Z",
 
 	if (source.isEntitySource() && !source.isChildEntitySource()) {
 
-		auto& lvl = this->mLevel;
-		auto attacker = lvl->fetchEntity(source.getEntityUniqueID(), false);
+		auto& lvl = *this->mLevel;
+		auto attacker = lvl.fetchEntity(source.getEntityUniqueID(), false);
 
 		if (attacker && attacker->isInstanceOfMob()) {
 
 			bool usingSharpnessItem = SharpnessParticles::itemHasSharpness(attacker->getCarriedItem());
 			if (usingSharpnessItem) {
 
-				uint64_t currentTick = lvl->getServerTick();
+				uint64_t currentTick = lvl.getServerTick();
 				if ((currentTick - this->mLastHurtTimestamp) >= 2) { // cooldown of 2 ticks for players
 
 					auto pkt = SharpnessParticles::getSharpnessParticlePacket(*this);
